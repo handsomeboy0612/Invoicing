@@ -1,0 +1,25 @@
+node_modules/
+dist/
+release/
+out/
+*.exe
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Embedded third-party / external repositories (kept locally, not part of this repo)
+invoice-sdk-golang/
+invoice-sdk-php/
+invoice-sdk-python/
+invoice-sdk-python3/
+new-yunwu-api/

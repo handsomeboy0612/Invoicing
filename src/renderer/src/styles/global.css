@@ -1,0 +1,734 @@
+/* ========== 设计 token ========== */
+:root {
+  --app-bg: #f7f8fa;
+  --app-header-bg: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  --app-header-text: #f1f5f9;
+  --app-sidebar-bg: #ffffff;
+  --app-sidebar-border: #f0f0f0;
+  --app-card-bg: #ffffff;
+  --app-primary: #3370ff;
+  --app-primary-light: #e8f0ff;
+  --app-text: #1e293b;
+  --app-text-secondary: #64748b;
+  --app-text-tertiary: #94a3b8;
+  --app-border: #e2e8f0;
+  --app-border-light: #f1f5f9;
+  --app-success: #10b981;
+  --app-warning: #f59e0b;
+  --app-error: #ef4444;
+  --app-radius: 10px;
+  --app-radius-sm: 6px;
+  --app-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --app-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --app-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --app-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --app-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========== 全局基础 ========== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ========== 根布局 ========== */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--app-bg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  color: var(--app-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========== 顶栏 ========== */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 52px;
+  background: var(--app-header-bg);
+  flex-shrink: 0;
+  -webkit-app-region: drag;
+  user-select: none;
+  position: relative;
+  z-index: 10;
+}
+
+.app-header-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--app-header-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: 0.3px;
+}
+
+.app-header-title .header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+}
+
+.app-header-status {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  -webkit-app-region: no-drag;
+}
+
+.app-header-status-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: background var(--app-transition);
+}
+
+.app-header-status-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot.connected {
+  background: var(--app-success);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  animation: pulse-green 2s ease-in-out infinite;
+}
+
+.status-dot.disconnected {
+  background: #94a3b8;
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2); }
+  50% { box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15); }
+}
+
+/* ========== 主体 ========== */
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ========== 侧栏 ========== */
+.app-sidebar {
+  width: 320px;
+  min-width: 320px;
+  background: var(--app-sidebar-bg);
+  border-right: 1px solid var(--app-sidebar-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar-section {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--app-border-light);
+}
+
+.sidebar-section:last-of-type {
+  border-bottom: none;
+}
+
+.sidebar-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-text-tertiary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-section-title .semi-icon {
+  font-size: 14px;
+}
+
+.settings-row {
+  margin-bottom: 14px;
+}
+
+.settings-row:last-child {
+  margin-bottom: 0;
+}
+
+.settings-row > label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--app-text-secondary);
+  margin-bottom: 6px;
+}
+
+/* 侧栏 input 微调 */
+.app-sidebar .semi-input-wrapper {
+  border-radius: var(--app-radius-sm);
+  transition: border-color var(--app-transition), box-shadow var(--app-transition);
+}
+
+.app-sidebar .semi-input-wrapper:hover {
+  border-color: var(--app-primary);
+}
+
+.app-sidebar .semi-input-wrapper-focus {
+  box-shadow: 0 0 0 2px rgba(51, 112, 255, 0.12);
+}
+
+/* ========== 侧栏折叠面板 ========== */
+.sidebar-collapse {
+  border: none !important;
+  background: transparent !important;
+}
+
+.sidebar-collapse .semi-collapse-item {
+  border: none !important;
+  background: transparent !important;
+  border-bottom: 1px solid var(--app-border-light) !important;
+}
+
+.sidebar-collapse .semi-collapse-item:last-child {
+  border-bottom: none !important;
+}
+
+.sidebar-collapse .semi-collapse-header {
+  padding: 14px 20px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--app-text-tertiary) !important;
+  letter-spacing: 0.5px;
+  line-height: 1.5 !important;
+}
+
+.sidebar-collapse .semi-collapse-header:hover {
+  background: var(--app-border-light) !important;
+}
+
+.sidebar-collapse .semi-collapse-header-icon {
+  color: var(--app-text-tertiary) !important;
+}
+
+.sidebar-collapse .semi-collapse-content {
+  background: transparent !important;
+}
+
+.sidebar-collapse .semi-collapse-content-wrapper .semi-collapse-content-inner {
+  padding: 4px 20px 18px !important;
+}
+
+/* ========== 主内容区 ========== */
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--app-bg);
+}
+
+.app-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* ========== 工具栏 ========== */
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--app-card-bg);
+  border-bottom: 1px solid var(--app-border);
+}
+
+.toolbar-invoice {
+  align-items: flex-start;
+  padding: 16px 24px;
+  gap: 16px;
+}
+
+.toolbar-invoice .toolbar-left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.toolbar-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toolbar-filter-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.toolbar-action-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbar .toolbar-total {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 4px 12px;
+  background: var(--app-border-light);
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* ========== 发票列表卡片 ========== */
+.invoice-list-card {
+  overflow: hidden;
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+  border: 1px solid var(--app-border);
+}
+
+.invoice-list-card .semi-card-body {
+  padding: 0;
+}
+
+.app-content .invoice-table .semi-table-thead .semi-table-row-head {
+  background: #f8fafc;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--app-text-secondary);
+}
+
+.app-content .invoice-table .semi-table-tbody .semi-table-row {
+  transition: background var(--app-transition);
+}
+
+.app-content .invoice-table .semi-table-tbody .semi-table-row:hover {
+  background: #f8fafc;
+}
+
+.app-content .invoice-list-card .semi-table-pagination-wrap {
+  padding: 12px 20px;
+  border-top: 1px solid var(--app-border);
+  background: #fafbfc;
+}
+
+/* ========== 发票详情网格 ========== */
+.invoice-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.invoice-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.invoice-detail-item label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--app-text-tertiary);
+}
+
+.invoice-detail-item span {
+  font-size: 14px;
+  color: var(--app-text);
+}
+
+.invoice-detail-item.full-width {
+  grid-column: 1 / -1;
+}
+
+/* ========== 表格单元格省略 ========== */
+.cell-ellipsis {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* ========== 日志面板 ========== */
+.app-log-panel-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  border-top: 1px solid var(--app-border);
+  background: var(--app-card-bg);
+  transition: height var(--app-transition);
+}
+
+.app-log-panel-wrapper.collapsed {
+  height: auto !important;
+}
+
+.app-log-panel-header {
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--app-border-light);
+  background: #fafbfc;
+  font-size: 13px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--app-transition);
+}
+
+.app-log-panel-header:hover {
+  background: #f1f5f9;
+}
+
+.app-log-panel-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-log-panel-header-left .log-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 9px;
+  background: var(--app-primary-light);
+  color: var(--app-primary);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.app-log-panel {
+  flex: 1;
+  min-height: 0;
+  background: #1a1b2e;
+  color: #c8d6e5;
+  font-family: 'Cascadia Code', 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 12px 20px;
+  overflow-y: auto;
+}
+
+.app-log-panel .log-line {
+  white-space: pre-wrap;
+  word-break: break-all;
+  padding: 1px 0;
+  border-radius: 2px;
+}
+
+.log-line.info {
+  color: #c8d6e5;
+}
+
+.log-line.warn {
+  color: #fbbf24;
+}
+
+.log-line.error {
+  color: #fb7185;
+}
+
+.log-line.success {
+  color: #34d399;
+}
+
+.log-time {
+  color: #64748b;
+  margin-right: 10px;
+  font-size: 11px;
+}
+
+/* ========== Semi 卡片在侧栏内的微调 ========== */
+.app-sidebar .semi-card {
+  border-radius: var(--app-radius-sm);
+  border: 1px solid var(--app-border);
+  box-shadow: none;
+}
+
+.app-sidebar .semi-card-body {
+  padding: 16px;
+}
+
+/* ========== 主内容区卡片 ========== */
+.app-content .semi-card {
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+.app-content .semi-table-wrapper {
+  border-radius: var(--app-radius);
+}
+
+/* ========== 数电开票步骤 ========== */
+.tax-steps {
+  margin-bottom: 14px;
+}
+
+.tax-steps .semi-steps-item-title {
+  font-size: 13px !important;
+}
+
+.tax-step-card {
+  margin-bottom: 12px;
+}
+
+.tax-step-card:last-child {
+  margin-bottom: 0;
+}
+
+.tax-qr-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 16px;
+  padding: 20px 16px;
+  background: #f8fafc;
+  border: 1px solid var(--app-border);
+  border-radius: 12px;
+}
+
+.tax-qr-card-inner {
+  padding: 12px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  line-height: 0;
+}
+
+.tax-qr-img {
+  display: block;
+  width: 180px;
+  height: 180px;
+  border-radius: 6px;
+}
+
+.tax-qr-hint {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #64748b;
+  text-align: center;
+}
+
+.tax-qr-hint strong {
+  color: var(--app-primary);
+  font-weight: 600;
+}
+
+.tax-qr-polling {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: #eff6ff;
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--app-primary);
+  animation: tax-qr-pulse 2s ease-in-out infinite;
+}
+
+@keyframes tax-qr-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.tax-logged-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 20px 20px;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f0f9ff 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.tax-logged-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.tax-preset-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.sidebar-section-actions .semi-button {
+  margin-top: 4px;
+}
+
+/* ========== 一键开票确认弹窗 ========== */
+.issue-confirm-body {
+  padding: 4px 0;
+}
+
+.issue-confirm-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.issue-confirm-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.issue-confirm-row label {
+  flex-shrink: 0;
+  width: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--app-text-tertiary);
+  text-align: right;
+}
+
+.issue-confirm-row span {
+  font-size: 14px;
+  color: var(--app-text);
+}
+
+/* ========== 侧栏 Divider 间距 ========== */
+.app-sidebar .semi-divider {
+  margin: 0 !important;
+  border-color: var(--app-border-light);
+}
+
+/* ========== 全局 Semi 按钮微调 ========== */
+.semi-button {
+  border-radius: var(--app-radius-sm);
+  font-weight: 500;
+  transition: all var(--app-transition);
+}
+
+/* ========== 全局 Semi Select 微调 ========== */
+.semi-select {
+  border-radius: var(--app-radius-sm) !important;
+}
+
+/* ========== 侧栏 RadioGroup 按钮组 ========== */
+.app-sidebar .semi-radioGroup-buttonRadio {
+  width: 100%;
+}
+
+.app-sidebar .semi-radioGroup-buttonRadio .semi-radio-addon {
+  font-size: 12px;
+}
+
+/* ========== Tag 状态已就绪 ========== */
+.tax-status-tag {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ========== 开票队列 ========== */
+.queue-stats-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.queue-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: var(--app-text-tertiary);
+}
+
+/* Tab 区域 */
+.app-main > .semi-tabs {
+  flex-shrink: 0;
+}
+
+.app-main > .semi-tabs .semi-tabs-bar {
+  padding-top: 4px;
+}
+
+.app-main > .semi-tabs .semi-tabs-content {
+  padding: 0;
+}
+
+/* ========== Modal 美化 ========== */
+.semi-modal-content {
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.semi-modal-header {
+  padding: 20px 24px 12px !important;
+}
+
+.semi-modal-body {
+  padding: 12px 24px 20px !important;
+}
+
+.semi-modal-footer {
+  padding: 12px 24px 20px !important;
+}

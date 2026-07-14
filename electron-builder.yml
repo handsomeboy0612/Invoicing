@@ -1,0 +1,26 @@
+appId: com.yunwu.invoice-tool
+productName: 云雾开票工具
+directories:
+  output: release
+  buildResources: build
+files:
+  - dist/**/*
+  - node_modules/**/*
+  - package.json
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  shortcutName: 云雾开票工具
+extraResources:
+  - from: "."
+    to: "."
+    filter:
+      - "!node_modules"
+      - "!src"
+      - "!release"
