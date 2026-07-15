@@ -606,7 +606,8 @@ const InvoiceList: React.FC<Props> = ({ apiReady, sellerInfo, onLog, onIssued, r
       const payload: { invoice_number?: string; invoice_date?: string; seller_tax_no?: string } = {
         invoice_number: num,
       };
-      if (backfillInvoiceDate) payload.invoice_date = dayjs(backfillInvoiceDate).format('YYYYMMDD');
+      /** Align with the auto-writeback path (Kprq → e.g. 2026-07-14) so invoice_date stays one consistent format across records */
+      if (backfillInvoiceDate) payload.invoice_date = dayjs(backfillInvoiceDate).format('YYYY-MM-DD');
       if (backfillSellerTaxNo.trim()) payload.seller_tax_no = backfillSellerTaxNo.trim();
       const res = await invoiceApi.updateInvoiceMeta(backfillRecord.id, payload);
       if (res?.success === false) {
