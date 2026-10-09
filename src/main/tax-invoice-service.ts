@@ -118,7 +118,8 @@ class TaxInvoiceClient {
     method: 'GET' | 'POST',
     path: string,
     data?: Record<string, unknown>,
-    params?: Record<string, string | number>
+    params?: Record<string, string | number>,
+    timeout = 30000
   ): Promise<TaxApiResponse<T>> {
     const randomString = generateRandomString(20);
     const timestamp = getTimestamp();
@@ -156,8 +157,8 @@ class TaxInvoiceClient {
 
     try {
       const res = method === 'GET'
-        ? await axios.get<TaxApiResponse<T>>(url, { headers, timeout: 30000 })
-        : await axios.post<TaxApiResponse<T>>(url, data ?? {}, { headers, timeout: 30000 });
+        ? await axios.get<TaxApiResponse<T>>(url, { headers, timeout })
+        : await axios.post<TaxApiResponse<T>>(url, data ?? {}, { headers, timeout });
       const rd = res.data as any;
       const logData = rd?.data && typeof rd.data === 'string' && rd.data.length > 200
         ? rd.data.substring(0, 200) + '...(truncated)'
@@ -201,7 +202,7 @@ class TaxInvoiceClient {
     if (params.sf) body.sf = params.sf;
     if (params.ewmlx) body.ewmlx = params.ewmlx;
     if (params.ewmid) body.ewmid = params.ewmid;
-    return this.request<string>('POST', '/v5/enterprise/loginDppt', body);
+    return this.request<string>('POST', '/v5/enterprise/loginDppt', body, undefined, 120000);
   }
 
   /** 获取认证状态：200 成功，420 短信，430 人脸 */
